@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Edytuj profil{% endblock %}
+{% block content %}
+<div class="container py-4" style="max-width:720px;">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h1 class="h5 mb-3">Edytuj profil</h1>
+      <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Telefon</label>
+            {{ form.phone_number }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Miasto</label>
+            {{ form.city }}
+          </div>
+          <div class="col-md-8">
+            <label class="form-label">Ulica</label>
+            {{ form.street }}
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Kod pocztowy</label>
+            {{ form.zip_code }}
+          </div>
+        </div>
+        <button class="btn btn-primary mt-3" type="submit">Zapisz</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

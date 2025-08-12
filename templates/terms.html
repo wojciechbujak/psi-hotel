@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% block title %}Regulamin{% endblock %}
+
+{% block content %}
+<section class="container py-5">
+  <div class="row">
+    <div class="col-lg-10 mx-auto">
+
+      <style>
+        .regu-title { letter-spacing:.3px; }
+        .regu-meta { background:#f8f9fa; border:1px solid #ececec; }
+        .regu-meta li + li { margin-top:.25rem; }
+        .regu-toc a { text-decoration:none; }
+        .regu-toc a:hover { text-decoration:underline; }
+        .regu-section h2 { scroll-margin-top: 90px; } /* gdy masz sticky navbar */
+        .regu-section + .regu-section { margin-top:2.5rem; }
+        .regu-section ol { padding-left:1.1rem; }
+        .regu-section ol > li { margin-bottom:.5rem; }
+        .regu-note { font-size:.95rem; color:#6c757d; }
+        @media print {
+          .card, .regu-meta { box-shadow:none !important; }
+          .regu-toc { display:none; }
+        }
+      </style>
+
+
+      <header class="mb-4 text-center">
+        <h1 class="regu-title mb-2">REGULAMIN HOTELU DLA PSÓW</h1>
+
+      </header>
+
+
+      <
+      <div class="card shadow-sm mb-4">
+        <div class="card-body py-3 regu-toc">
+          <div class="small text-uppercase text-muted mb-2">Spis treści</div>
+          <div class="row">
+            <div class="col-sm-6">
+              <ol class="mb-0">
+                <li><a href="#sec-1">Definicje</a></li>
+                <li><a href="#sec-2">Rezerwacje, płatności i cennik</a></li>
+                <li><a href="#sec-3">Przyjęcie psa – wymagania</a></li>
+                <li><a href="#sec-4">Karma, leki i rzeczy osobiste</a></li>
+                <li><a href="#sec-5">Warunki pobytu i opieka</a></li>
+                <li><a href="#sec-6">Zdrowie, weterynarz, sytuacje nagłe</a></li>
+              </ol>
+            </div>
+            <div class="col-sm-6">
+              <ol start="7" class="mb-0">
+                <li><a href="#sec-7">Doba hotelowa, odbiór, przedłużenie</a></li>
+                <li><a href="#sec-8">Zmiana terminu, rezygnacja, no-show</a></li>
+                <li><a href="#sec-9">Odpowiedzialność i szkody</a></li>
+                <li><a href="#sec-10">Dane osobowe (RODO)</a></li>
+                <li><a href="#sec-11">Reklamacje</a></li>
+                <li><a href="#sec-12">Postanowienia końcowe</a></li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <article class="regu-section">
+
+        <section id="sec-1" class="regu-section">
+          <h2 class="h4 mb-3">1. Definicje</h2>
+          <dl class="row">
+            <dt class="col-sm-4">Hotel / Usługodawca</dt>
+            <dd class="col-sm-8">Psi hotel, podmiot świadczący usługi opieki nad psami.</dd>
+
+            <dt class="col-sm-4">Klient / Właściciel</dt>
+            <dd class="col-sm-8">Osoba dokonująca rezerwacji i powierzająca psa pod opiekę Hotelu.</dd>
+
+            <dt class="col-sm-4">Pies</dt>
+            <dd class="col-sm-8">Zwierzę domowe rasy psowatej pozostające pod opieką Klienta podczas świadczenia usługi.</dd>
+
+            <dt class="col-sm-4">Pobyt</dt>
+            <dd class="col-sm-8">Okres od przekazania psa do Hotelu do jego odbioru przez Klienta.</dd>
+
+            <dt class="col-sm-4">Cennik</dt>
+            <dd class="col-sm-8">Aktualne ceny usług publikowane na stronie internetowej Hotelu lub dostępne w siedzibie.</dd>
+          </dl>
+        </section>
+
+        <section id="sec-2" class="regu-section">
+          <h2 class="h4 mb-3">2. Rezerwacje, płatności i cennik</h2>
+          <ol>
+            <li>Rezerwacji można dokonać poprzez formularz na stronie, telefonicznie lub e-mailowo.</li>
+            <li>Rezerwacja staje się <strong>potwierdzona</strong> po zaksięgowaniu zadatku w wysokości <strong>100%</strong> wartości pobytu (chyba że strony uzgodnią inaczej).</li>
+            <li>Opłaty naliczane są zgodnie z <strong>Cennikiem</strong>. Ceny mogą różnić się w okresach świątecznych i wysokiego sezonu.</li>
+            <li>Usługi dodatkowe (karmienie karmą Hotelu, szkolenie, kąpiel itp.) rozliczane są zgodnie z Cennikiem.</li>
+          </ol>
+        </section>
+
+        <section id="sec-3" class="regu-section">
+          <h2 class="h4 mb-3">3. Przyjęcie psa – wymagania zdrowotne i formalne</h2>
+          <ol>
+            <li>Hotel przyjmuje psy w wieku <strong>[min. 4 miesiące]</strong>, zdrowe, z <strong>aktualnymi szczepieniami</strong> (wścieklizna oraz choroby zakaźne) i <strong>aktualnym odrobaczeniem</strong>.</li>
+            <li>Przy przyjęciu wymagane jest okazanie <strong>książeczki zdrowia</strong> psa.</li>
+            <li>Pies powinien być zabezpieczony przeciw pchłom i kleszczom.</li>
+            <li>Klient informuje Hotel o chorobach przewlekłych, alergiach, urazach oraz zachowaniach szczególnych (np. lęk separacyjny, skłonność do ucieczek, agresja).</li>
+            <li><strong>Suczki w cieczce</strong> oraz psy o zachowaniach agresywnych przyjmowane są <strong>po indywidualnej ocenie</strong> i na odrębnych warunkach (Hotel zastrzega sobie prawo do odmowy przyjęcia).</li>
+            <li>Klient wyraża zgodę na udzielenie psu <strong>pierwszej pomocy</strong> przez personel Hotelu.</li>
+          </ol>
+        </section>
+
+        <section id="sec-4" class="regu-section">
+          <h2 class="h4 mb-3">4. Karma, leki i rzeczy osobiste psa</h2>
+          <ol>
+            <li>Klient może zapewnić <strong>własną karmę</strong> – w porcjach/opakowaniach opisanych imieniem psa i dawkowaniem.</li>
+            <li>W przypadku karmienia karmą Hotelu stosuje się dopłaty zgodnie z Cennikiem.</li>
+            <li>Podawanie <strong>leków</strong> odbywa się na podstawie pisemnej instrukcji właściciela (nazwa leku, dawka, godziny).</li>
+            <li>Rzeczy osobiste (koc, zabawka, smycz) mogą zostać przyjęte, jednak Hotel <strong>nie odpowiada za ich zniszczenie</strong> wynikające z normalnego użytkowania przez psa.</li>
+          </ol>
+        </section>
+
+        <section id="sec-5" class="regu-section">
+          <h2 class="h4 mb-3">5. Warunki pobytu i opieka</h2>
+          <ol>
+            <li>Hotel dysponuje: <strong>5 pokojami w domu</strong>, <strong>5 pojedynczymi kojcami</strong> oraz <strong>1 wspólnym wybiegiem</strong>. Przydział miejsca zależy od wielkości, temperamentu i potrzeb psa oraz od dostępności.</li>
+            <li>Psy <strong>towarzyskie</strong> mogą korzystać ze <strong>wspólnego wybiegu</strong> pod nadzorem; psy wymagające spokoju mają zapewnione <strong>indywidualne spacery</strong> i odseparowanie od grupy.</li>
+            <li>Dzienny plan obejmuje co najmniej <strong>[2–3] spacery</strong> oraz czas na zabawę i odpoczynek (zależnie od pogody i kondycji psa).</li>
+            <li>Hotel zapewnia <strong>stały dostęp do świeżej wody</strong> oraz <strong>nadzór 24/7</strong>.</li>
+            <li>Klient może odwiedzić psa po wcześniejszym uzgodnieniu terminu.</li>
+          </ol>
+        </section>
+
+        <section id="sec-6" class="regu-section">
+          <h2 class="h4 mb-3">6. Zdrowie psa, weterynarz i sytuacje nagłe</h2>
+          <ol>
+            <li>W razie nagłego pogorszenia stanu zdrowia Hotel <strong>niezwłocznie</strong> kontaktuje się z Klientem.</li>
+            <li>Jeżeli kontakt nie jest możliwy, Hotel ma prawo <strong>zawiezienia psa do lekarza weterynarii</strong> (preferowany gabinet: <strong>[nazwa/adres]</strong>).</li>
+            <li><strong>Koszty leczenia</strong> ponosi Klient; Hotel działa z należytą starannością i w najlepszym interesie psa.</li>
+            <li>W razie choroby zakaźnej pies może zostać <strong>odizolowany</strong> od innych zwierząt – jeśli to możliwe organizacyjnie.</li>
+          </ol>
+        </section>
+
+        <section id="sec-7" class="regu-section">
+          <h2 class="h4 mb-3">7. Doba hotelowa, odbiór i przedłużenie pobytu</h2>
+          <ol>
+            <li><strong>Doba hotelowa</strong> liczona jest od <strong>godziny przyjęcia</strong> psa i trwa 24 godziny, chyba że strony ustalą inaczej.</li>
+            <li>Odbiór poza ustalonym terminem wymaga wcześniejszego uzgodnienia.</li>
+            <li>W przypadku <strong>opóźnienia odbioru</strong> naliczana jest dodatkowa opłata zgodnie z Cennikiem (np. stawka za kolejną rozpoczętą dobę).</li>
+            <li><strong>Przedłużenie pobytu</strong> jest możliwe w miarę dostępności miejsc; Klient informuje Hotel jak najszybciej.</li>
+          </ol>
+        </section>
+
+        <section id="sec-8" class="regu-section">
+          <h2 class="h4 mb-3">8. Zmiana terminu, rezygnacja i niepojawienie się</h2>
+          <ol>
+            <li><strong>Zmiana terminu</strong> jest możliwa w miarę dostępności; zadatek może zostać przeniesiony na nowy termin po uzgodnieniu.</li>
+            <li><strong>Rezygnacja</strong> na <strong>[7]</strong> dni lub więcej przed rozpoczęciem pobytu – zwrot zadatku [100% / wg Cennika].</li>
+            <li>Rezygnacja na mniej niż <strong>[7]</strong> dni – zadatek podlega przepadkowi.</li>
+            <li><strong>No-show</strong> (niepojawienie się w dniu rozpoczęcia) – Hotel zachowuje zadatek, rezerwacja ulega anulowaniu.</li>
+          </ol>
+        </section>
+
+        <section id="sec-9" class="regu-section">
+          <h2 class="h4 mb-3">9. Odpowiedzialność i szkody</h2>
+          <ol>
+            <li>Klient odpowiada za szkody wyrządzone przez psa osobom trzecim, personelowi lub mieniu Hotelu – zgodnie z przepisami prawa.</li>
+            <li>Hotel odpowiada za należyte wykonanie usług, jednak <strong>nie odpowiada</strong> za zdarzenia wynikające z nagłych chorób niezależnych od Hotelu, siły wyższej lub wad ukrytych rzeczy powierzonych przez Klienta.</li>
+            <li>Hotel zastrzega sobie prawo do <strong>odmowy przyjęcia</strong> lub <strong>przerwania pobytu</strong> psa stwarzającego poważne zagrożenie; w takim wypadku Klient zobowiązany jest do niezwłocznego odbioru psa.</li>
+          </ol>
+        </section>
+
+        <section id="sec-10" class="regu-section">
+          <h2 class="h4 mb-3">10. Dane osobowe (RODO)</h2>
+          <ol>
+            <li>Administratorem danych jest <strong>[Nazwa]</strong>, kontakt: <strong>[e-mail]</strong>, <strong>[adres]</strong>.</li>
+            <li>Dane przetwarzane są w celu realizacji umowy (art. 6 ust. 1 lit. b RODO), rozliczeń (lit. c) oraz w prawnie uzasadnionym interesie (lit. f).</li>
+            <li>Odbiorcy danych: dostawca systemu rezerwacji, biuro rachunkowe, podmioty IT, lekarz weterynarii.</li>
+            <li>Okres przechowywania: czas świadczenia usług oraz wymagany przepisami lub do upływu przedawnienia roszczeń.</li>
+            <li>Prawa osoby: dostęp, sprostowanie, ograniczenie, sprzeciw, przeniesienie danych, skarga do Prezesa UODO.</li>
+            <li>Podanie danych jest dobrowolne, ale niezbędne do realizacji usługi.</li>
+            <li>Zgoda na publikację zdjęć/wizerunku psa jest <strong>dobrowolna</strong> i może być w każdej chwili wycofana.</li>
+          </ol>
+        </section>
+
+        <section id="sec-11" class="regu-section">
+          <h2 class="h4 mb-3">11. Reklamacje</h2>
+          <ol>
+            <li>Reklamacje można składać e-mailowo na adres <strong>[e-mail]</strong> lub pisemnie w siedzibie Hotelu.</li>
+            <li>Hotel rozpatruje reklamacje w terminie <strong>[14 dni]</strong> i odpowiada na adres wskazany przez Klienta.</li>
+          </ol>
+        </section>
+
+        <section id="sec-12" class="regu-section">
+          <h2 class="h4 mb-3">12. Postanowienia końcowe</h2>
+          <ol>
+            <li>Złożenie rezerwacji oznacza akceptację niniejszego Regulaminu oraz Cennika.</li>
+            <li>Hotel może zmienić Regulamin z ważnych przyczyn (np. zmiana przepisów, oferty, cen); zmiany obowiązują od publikacji na stronie, z poszanowaniem praw nabytych Klientów.</li>
+            <li>W sprawach nieuregulowanych zastosowanie mają przepisy Kodeksu cywilnego i właściwych ustaw.</li>
+            <li>Regulamin dostępny jest na stronie internetowej Hotelu i w siedzibie.</li>
+          </ol>
+        </section>
+
+      </article>
+
+
+    </div>
+  </div>
+</section>
+{% endblock %}

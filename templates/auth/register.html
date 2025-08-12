@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Rejestracja{% endblock %}
+
+{% block content %}
+<section class="py-3 py-md-5 bg-light">
+  <div class="container">
+    <div class="row gy-3 gy-md-4 gy-lg-0 align-items-lg-center">
+      <div class="col-12 col-lg-6">
+        <img class="img-fluid rounded shadow" loading="lazy"
+             src="{% static 'images/registration.png' %}" alt="Rejestracja">
+      </div>
+
+      <div class="col-12 col-lg-6">
+        <div class="row justify-content-xl-center">
+          <div class="col-12 col-xl-10 bg-white p-4 text-dark rounded shadow">
+            <h2 class="mb-3">Załóż konto</h2>
+            <p class="lead fs-5 mb-4">
+
+            <form method="post" novalidate>
+              {% csrf_token %}
+
+              {% if form.non_field_errors %}
+                <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+              {% endif %}
+
+
+              <div class="mb-3">
+                <label class="form-label" for="{{ form.first_name.id_for_label }}">Imię</label>
+                {{ form.first_name }}
+                <div class="text-danger small">{{ form.first_name.errors }}</div>
+              </div>
+
+
+              <div class="mb-3">
+                <label class="form-label" for="{{ form.last_name.id_for_label }}">Nazwisko</label>
+                {{ form.last_name }}
+                <div class="text-danger small">{{ form.last_name.errors }}</div>
+              </div>
+
+
+              <div class="mb-3">
+                <label class="form-label" for="{{ form.email.id_for_label }}">Adres e-mail</label>
+                {{ form.email }}
+                <div class="text-danger small">{{ form.email.errors }}</div>
+              </div>
+
+
+              <div class="mb-3">
+                <label class="form-label" for="{{ form.password1.id_for_label }}">Hasło</label>
+                {{ form.password1 }}
+                <div class="form-text small">{{ form.password1.help_text|safe }}</div>
+                <div class="text-danger small">{{ form.password1.errors }}</div>
+              </div>
+
+
+              <div class="mb-4">
+                <label class="form-label" for="{{ form.password2.id_for_label }}">Potwierdź hasło</label>
+                {{ form.password2 }}
+                <div class="text-danger small">{{ form.password2.errors }}</div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label" for="{{ form.phone_number.id_for_label }}">Numer telefonu</label>
+                  {{ form.phone_number }}
+                  <div class="text-danger small">{{ form.phone_number.errors }}</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label" for="{{ form.street.id_for_label }}">Ulica</label>
+                  {{ form.street }}
+                  <div class="text-danger small">{{ form.street.errors }}</div>
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <label class="form-label" for="{{ form.city.id_for_label }}">Miasto</label>
+                  {{ form.city }}
+                  <div class="text-danger small">{{ form.city.errors }}</div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <label class="form-label" for="{{ form.zip_code.id_for_label }}">Kod pocztowy</label>
+                  {{ form.zip_code }}
+                  <div class="text-danger small">{{ form.zip_code.errors }}</div>
+                </div>
+              </div>
+
+
+
+              <div class="d-grid mb-2">
+                <button class="btn btn-lg btn-primary rounded-pill" type="submit">
+                  Zarejestruj się
+                </button>
+              </div>
+              <p class="m-0">Masz już konto? <a href="{% url 'login' %}" class="link-primary text-decoration-none">Zaloguj się</a></p>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

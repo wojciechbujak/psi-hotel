@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Nasze Pokoje{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+.carousel-inner {
+    max-height: 400px;
+}
+.carousel-inner img {
+    height: 400px;
+    object-fit: cover;
+}
+</style>
+
+<div id="roomsCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#roomsCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slajd 1"></button>
+    <button type="button" data-bs-target="#roomsCarousel" data-bs-slide-to="1" aria-label="Slajd 2"></button>
+    <button type="button" data-bs-target="#roomsCarousel" data-bs-slide-to="2" aria-label="Slajd 3"></button>
+  </div>
+
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{% static 'images/room_for_dog.png' %}" class="d-block w-100" alt="Pokój dla psa">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Pokój w domu</h5>
+        <p>Przytulny i ciepły, idealny dla małych psów.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'images/yard.png' %}" class="d-block w-100" alt="Wybieg">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Wspólny wybieg</h5>
+        <p>Przestronny wybieg z budami i świeżym powietrzem.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'images/kneel.png' %}" class="d-block w-100" alt="Kojec">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Pojedynczy kojec</h5>
+        <p>Komfortowy kojec dla dużych psów, z prywatnością.</p>
+      </div>
+    </div>
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#roomsCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Poprzedni</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#roomsCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Następny</span>
+  </button>
+</div>
+
+    <div class="container" bis_skin_checked="1">
+  <div class="card-deck mb-3 text-center" bis_skin_checked="1">
+    <div class="card border-0 shadow rounded-lg mb-5">
+  <div class="card-header bg-primary text-white text-center py-4 rounded-top">
+    <h4 class="my-0 font-weight-bold">Wspólny wybieg</h4>
+  </div>
+  <div class="card-body px-4 py-4">
+    <h2 class="card-title text-center mb-4">80 zł <small class="text-muted">/ dzień</small></h2>
+    <ul class="pl-4 pr-2 mb-4" style="text-align: justify;">
+      <li class="mb-2">Dla psów towarzyskich – wspólna przestrzeń z innymi czworonogami.</li>
+      <li class="mb-2">Przestronny teren z budami i cieniem.</li>
+      <li class="mb-2">Stały dostęp do świeżej wody i zabawek.</li>
+      <li class="mb-2">Opieka opiekuna przez cały dzień.</li>
+    </ul>
+    <div class="text-center">
+      <a href="{% url 'create_reservation' %}?room_type=yard" class="btn btn-primary btn-lg px-5 rounded-pill">Zarezerwuj</a>
+    </div>
+  </div>
+</div>
+
+    <div class="card border-0 shadow rounded-lg mb-5">
+  <div class="card-header bg-primary text-white text-center py-4 rounded-top">
+    <h4 class="my-0 font-weight-bold">Pokój w domu</h4>
+  </div>
+  <div class="card-body px-4 py-4">
+    <h2 class="card-title text-center mb-4">180 zł <small class="text-muted">/ dzień</small></h2>
+    <ul class="pl-4 pr-2 mb-4" style="text-align: justify;">
+      <li class="mb-2">Przytulne wnętrze w ciepłym, domowym otoczeniu</li>
+      <li class="mb-2">Idealny dla psów przyzwyczajonych do życia w domu</li>
+      <li class="mb-2">Miękkie legowiska, zabawki i spokojna atmosfera</li>
+      <li class="mb-2">Dostęp do świeżej wody i regularnych spacerów</li>
+    </ul>
+    <div class="text-center">
+        <a href="{% url 'create_reservation' %}?room_type=indoor" class="btn btn-primary btn-lg px-5 rounded-pill">Zarezerwuj</a>
+    </div>
+  </div>
+</div>
+  <div class="card border-0 shadow rounded-lg mb-5">
+  <div class="card-header bg-primary text-white text-center py-4 rounded-top">
+    <h4 class="my-0 font-weight-bold">Pojedynczy kojec</h4>
+  </div>
+  <div class="card-body px-4 py-4">
+    <h2 class="card-title text-center mb-4">130 zł <small class="text-muted">/ dzień</small></h2>
+    <ul class="pl-4 pr-2 mb-4" style="text-align: justify;">
+      <li class="mb-2">Oddzielna, bezpieczna przestrzeń dla dużych psów</li>
+      <li class="mb-2">Czyste, przestronne warunki z ochroną przed warunkami pogodowymi</li>
+      <li class="mb-2">Zapewnia ciszę, spokój i prywatność</li>
+      <li class="mb-2">Dostęp do świeżej wody i regularnych spacerów</li>
+    </ul>
+    <div class="text-center">
+        <a href="{% url 'create_reservation' %}?room_type=kennel" class="btn btn-primary btn-lg px-5 rounded-pill">Zarezerwuj</a>
+    </div>
+  </div>
+  </div>
+  </div>
+    </div>
+
+{% endblock %}

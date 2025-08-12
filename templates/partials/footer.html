@@ -1,0 +1,114 @@
+{% load static %}
+<style>
+  .social-icon {
+    color: #f1f1f1;
+    transition: color 0.3s ease;
+    margin: 0 0.5rem;
+  }
+
+  .social-icon.facebook:hover {
+    color: #1877f2;
+  }
+
+  .social-icon.youtube:hover {
+    color: #ff0000;
+  }
+
+  .social-icon.instagram:hover {
+    color: #e1306c;
+  }
+
+  .weather-box {
+    background-color: #1f1f1f;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    text-align: center;
+    animation: fadeInUp 1.5s ease forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      transform: translateY(30px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .weather-box img {
+    height: 56px;
+    vertical-align: middle;
+  }
+
+  .weather-box p {
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-logo {
+    max-height: 200px;
+    width: auto;
+  }
+</style>
+
+<footer class="footer mt-5">
+
+  <div class="bg-dark text-light py-4 border-top border-secondary">
+    <div class="container">
+      <div class="row gy-4 align-items-start text-center text-md-start">
+
+
+        <div class="col-12 col-md-3">
+          <a href="{% url 'home' %}">
+            <img src="{% static 'images/logo.png' %}" alt="Dog Hotel Logo" class="footer-logo mb-3">
+          </a>
+        </div>
+
+
+        <div class="col-12 col-md-3">
+          <h6 class="text-uppercase mb-3">Nawigacja</h6>
+          <ul class="nav flex-column align-items-center align-items-md-start">
+            <li class="nav-item"><a class="nav-link text-light px-0 py-1" href="#">O nas</a></li>
+            <li class="nav-item"><a class="nav-link text-light px-0 py-1" href="#">Kontakt</a></li>
+            <li class="nav-item"><a class="nav-link text-light px-0 py-1" href="#">Regulamin</a></li>
+            <li class="nav-item"><a class="nav-link text-light px-0 py-1" href="#">Polityka prywatności</a></li>
+          </ul>
+        </div>
+
+
+        <div class="col-12 col-md-3 d-flex flex-column align-items-center">
+          <h6 class="text-uppercase mb-3">Znajdź nas</h6>
+          <div>
+            <a href="#" class="social-icon facebook"><i class="fab fa-facebook fa-lg"></i></a>
+            <a href="#" class="social-icon instagram"><i class="fab fa-instagram fa-lg"></i></a>
+            <a href="#" class="social-icon youtube"><i class="fab fa-youtube fa-lg"></i></a>
+          </div>
+        </div>
+
+
+        {% if weather_data %}
+<div class="col-12 col-md-3">
+  <div class="weather-box shadow">
+
+    <h5 class="mb-2">Pogoda u Twojego pupila </h5>
+    <img src="https:{{ weather_data.current.condition.icon }}" alt="Ikona pogody" style="height: 100px;">
+    <p class="fs-5 mb-1">{{ weather_data.current.temp_c }}°C — {{ weather_data.current.condition.text }}</p>
+    <p></p>
+    <p class="mb-1"><strong>Godzina :</strong> {{ current_time|date:"H:i" }}</p>
+
+  </div>
+</div>
+{% endif %}
+      </div>
+    </div>
+  </div>
+
+
+  <div class="bg-black text-center text-muted py-3 border-top border-secondary">
+    <div class="container">
+      <small>© 2025 Dog Hotel. Wszelkie prawa zastrzeżone.</small>
+    </div>
+  </div>
+</footer>

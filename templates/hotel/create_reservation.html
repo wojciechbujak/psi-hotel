@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}Stwórz rezerwację{% endblock %}
+
+{% block content %}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<style>
+
+.wrapper { display:flex; min-height:90vh; align-items:center; justify-content:center; background:#f8f9fa; }
+.reservation-container { display:flex; flex-wrap:wrap; width:100%; max-width:1000px; background:white; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.1); overflow:hidden; }
+.image-side { flex:2.5; background:url("{% static 'images/psi_hotel.png' %}") no-repeat center center; background-size:cover; min-height:500px; display:none; }
+@media (min-width: 768px) { .image-side { display:block; } }
+.form-side { flex:1.5; padding:50px; }
+.form-side h2 { text-align:center; font-weight:bold; margin-bottom:30px; }
+.input-group-text { background-color:#007bff; color:white; border-radius:0.375rem 0 0 0.375rem; height:45px; display:flex; align-items:center; justify-content:center; }
+.form-control { height:45px; margin-bottom:20px; }
+.actions-row { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:12px; }
+.btn-reserve { padding:8px 16px; font-size:0.95rem; border-radius:10px; }
+.price-badge { border:1px solid #ced4da; background:#f8f9fa; color:#212529; padding:8px 12px; border-radius:999px; font-weight:600; white-space:nowrap; }
+.availability-badge { border:1px solid #ced4da; background:#f8f9fa; color:#212529; padding:8px 12px; border-radius:999px; font-weight:600; white-space:nowrap; }
+.availability-badge.ok { border-color:#198754; }
+.availability-badge.bad { border-color:#dc3545; }
+@media (max-width: 480px) {
+  .actions-row { flex-direction:column; align-items:stretch; }
+  .price-badge, .availability-badge { width:100%; text-align:center; }
+}
+</style>
+
+<div class="wrapper">
+  <div class="reservation-container">
+    <div class="image-side"></div>
+    <div class="form-side">
+      <h2>Zarezerwuj pobyt</h2>
+
+
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger" role="alert" aria-live="polite">
+          {{ form.non_field_errors }}
+        </div>
+      {% endif %}
+
+      <form method="post" novalidate>
+        {% csrf_token %}
+
+
+        <div class="mb-1 input-group">
+          <span class="input-group-text"><i class="fas fa-dog"></i></span>
+          {{ form.dog_name|add_class:"form-control"|attr:"placeholder:Imię psa" }}
+        </div>
+        <div class="text-danger small mb-2">{{ form.dog_name.errors }}</div>
+
+
+        <div class="mb-1 input-group">
+          <span class="input-group-text"><i class="fas fa-door-open"></i></span>
+          {{ form.room|add_class:"form-control"|attr:"placeholder:Wybierz miejsce" }}
+        </div>
+        <div class="text-danger small mb-2">{{ form.room.errors }}</div>
+
+        <div class="mb-1 input-group">
+          <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+          {{ form.start_date|add_class:"form-control"|attr:"placeholder:Data rozpoczęcia" }}
+        </div>
+        <div class="text-danger small mb-2">{{ form.start_date.errors }}</div>
+
+        <div class="mb-2 input-group">
+          <span class="input-group-text"><i class="fas fa-calendar-check"></i></span>
+          {{ form.end_date|add_class:"form-control"|attr:"placeholder:Data zakończenia" }}
+        </div>
+        <div class="text-danger small mb-3">{{ form.end_date.errors }}</div>
+
+        {% if form.notes %}
+          <div class="mb-1">
+            {{ form.notes|add_class:"form-control"|attr:"placeholder:Uwagi (opcjonalnie)" }}
+          </div>
+          <div class="text-danger small mb-2">{{ form.notes.errors }}</div>
+        {% endif %}
+
+        <div class="actions-row">
+          <button id="btn-submit" type="submit" class="btn btn-success btn-reserve">
+            Zarezerwuj pobyt
+          </button>
+
+          <span id="availability" class="availability-badge" aria-live="polite">
+            Dostępność: —
+          </span>
+
+          <span id="total-price" class="price-badge">
+            Łącznie: —
+          </span>
+        </div>
+
+        <script>
+
+          const ROOM_PRICES = {
+            {% for r in form.fields.room.queryset %}
+              "{{ r.id }}": {{ r.price_per_day|floatformat:2|default:"0" }}{% if not forloop.last %},{% endif %}
+            {% endfor %}
+          };
+
+          const roomEl = document.getElementById("id_room");
+          const startEl = document.getElementById("id_start_date");
+          const endEl = document.getElementById("id_end_date");
+          const totalEl = document.getElementById("total-price");
+
+          function parseLocalDate(iso) {
+            const [y, m, d] = (iso || "").split("-").map(Number);
+            if (!y || !m || !d) return null;
+            return new Date(y, m - 1, d);
+          }
+
+          function calcNightsInclusive(startISO, endISO) {
+            const s = parseLocalDate(startISO);
+            const e = parseLocalDate(endISO);
+            if (!s || !e) return 0;
+            const ms = e - s;
+            const days = Math.floor(ms / (1000 * 60 * 60 * 24)) + 1;
+            return days > 0 ? days : 0;
+          }
+
+          function formatPLN(amount) {
+            try {
+              return new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' }).format(amount);
+            } catch {
+              return amount.toFixed(2) + " PLN";
+            }
+          }
+
+          function updatePrice() {
+            const roomId = roomEl ? roomEl.value : null;
+            const pricePerDay = Number(ROOM_PRICES[roomId] || 0);
+            const nights = calcNightsInclusive(startEl?.value, endEl?.value);
+
+            if (!roomId || !pricePerDay || nights <= 0) {
+              totalEl.textContent = "Łącznie: —";
+              return;
+            }
+            const total = pricePerDay * nights;
+            totalEl.textContent = "Łącznie: " + formatPLN(total);
+          }
+
+          ["change", "input"].forEach(evt => {
+            roomEl?.addEventListener(evt, updatePrice);
+            startEl?.addEventListener(evt, updatePrice);
+            endEl?.addEventListener(evt, updatePrice);
+          });
+
+          updatePrice();
+        </script>
+
+        <script>
+          const badge = document.getElementById("availability");
+          const btn = document.getElementById("btn-submit");
+
+          async function checkAvailability() {
+            const roomId = roomEl?.value;
+            const s = startEl?.value;
+            const e = endEl?.value;
+
+
+            if (!roomId || !s || !e) {
+              badge.textContent = "Dostępność: —";
+              badge.classList.remove("ok", "bad");
+              btn.disabled = false;
+              return;
+            }
+
+            try {
+              const url = new URL("{% url 'availability_api' %}", window.location.origin);
+              url.searchParams.set("room", roomId);
+              url.searchParams.set("start", s);
+              url.searchParams.set("end", e);
+
+              const resp = await fetch(url, { headers: { "Accept": "application/json" }});
+              if (!resp.ok) {
+                badge.textContent = "Dostępność: błąd";
+                badge.classList.remove("ok");
+                badge.classList.add("bad");
+                btn.disabled = false;
+                return;
+              }
+
+              const data = await resp.json();
+
+              const anyBlocked = data.days.some(d => (d.free || 0) <= 0);
+
+              if (anyBlocked) {
+                badge.textContent = "Dostępność: BRAK miejsc dla zakresu";
+                badge.classList.remove("ok");
+                badge.classList.add("bad");
+                btn.disabled = true;
+              } else {
+                // opcjonalnie pokaż min wolnych miejsc
+                const minFree = Math.min(...data.days.map(d => d.free));
+                badge.textContent = "Dostępność: ✓ (min wolnych: " + minFree + ")";
+                badge.classList.remove("bad");
+                badge.classList.add("ok");
+                btn.disabled = false;
+              }
+            } catch (e) {
+              badge.textContent = "Dostępność: błąd połączenia";
+              badge.classList.remove("ok");
+              badge.classList.add("bad");
+              btn.disabled = false;
+            }
+          }
+
+          ["change", "input"].forEach(evt => {
+            roomEl?.addEventListener(evt, checkAvailability);
+            startEl?.addEventListener(evt, checkAvailability);
+            endEl?.addEventListener(evt, checkAvailability);
+          });
+
+          checkAvailability();
+        </script>
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            const startDateInput = document.querySelector("#id_start_date");
+            const endDateInput = document.querySelector("#id_end_date");
+
+            const today = new Date().toISOString().split("T")[0];
+            startDateInput.min = today;
+            endDateInput.min = today;
+
+            startDateInput.addEventListener("change", function() {
+              if (startDateInput.value) {
+
+                let minEnd = new Date(startDateInput.value);
+                endDateInput.min = minEnd.toISOString().split("T")[0];
+                if (endDateInput.value && endDateInput.value < startDateInput.value) {
+                  endDateInput.value = "";
+                }
+              }
+            });
+          });
+        </script>
+
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

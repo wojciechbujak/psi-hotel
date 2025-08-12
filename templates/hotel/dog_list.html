@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Dog List{% endblock %}
+
+{% block content %}
+    <h1 class="mb-3">List of Dogs</h1>
+    <a class="btn btn-primary mb-3" href="{% url 'add_dog' %}">Add New Dog</a>
+    <ul class="list-group">
+      {% for dog in dogs %}
+        <li class="list-group-item">
+            <strong>{{ dog.name }}</strong> ({{ dog.breed }}) – Age: {{ dog.age }} – Owner: {{ dog.owner }}
+        </li>
+      {% empty %}
+        <li class="list-group-item">No dogs found.</li>
+      {% endfor %}
+    </ul>
+{% endblock %}

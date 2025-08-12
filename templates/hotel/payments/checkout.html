@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Płatność online{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <h2 class="h4 mb-3">Płatność online</h2>
+          <p>Rezerwacja: <strong>#{{ reservation.id }}</strong></p>
+          <p>Kwota do zapłaty: <strong>{{ amount|floatformat:2 }} zł</strong></p>
+
+          <div class="alert alert-info">
+            Przelewy 24
+          </div>
+
+          <div class="d-flex gap-2">
+            <a href="{% url 'reservation_confirmation' reservation.id %}" class="btn btn-outline-secondary">
+              Wróć do podsumowania
+            </a>
+            <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+              Strona główna
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

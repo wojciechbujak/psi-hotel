@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Potwierdzenie rezerwacji{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <h2 class="h4 mb-4">✅ Rezerwacja złożona pomyślnie</h2>
+
+          <div class="table-responsive">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th scope="row" class="w-25">Numer rezerwacji</th>
+                  <td>#{{ reservation.id }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Data utworzenia</th>
+                  <td>{{ reservation.created_at|date:"Y-m-d H:i" }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Imię psa</th>
+                  <td>{{ reservation.dog_name }}</td>
+                </tr>
+                <tr>
+                  <th scope="row">Miejsce</th>
+                  <td>{{ reservation.room.name }} ({{ reservation.room.get_room_type_display }})</td>
+                </tr>
+                <tr>
+                  <th scope="row">Termin</th>
+                  <td>{{ reservation.start_date }} → {{ reservation.end_date }} ({{ nights }} doby)</td>
+                </tr>
+                <tr>
+                  <th scope="row">Cena za dobę</th>
+                  <td>{{ reservation.room.price_per_day }} zł</td>
+                </tr>
+                <tr>
+                  <th scope="row">Razem</th>
+                  <td><strong>{{ total|floatformat:2 }} zł</strong></td>
+                </tr>
+                {% if reservation.notes %}
+                <tr>
+                  <th scope="row">Uwagi</th>
+                  <td>{{ reservation.notes }}</td>
+                </tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+
+          <div class="d-flex gap-2 mt-4">
+            <a href="{% url 'checkout_payment' reservation.id %}" class="btn btn-primary">
+              Opłać online
+            </a>
+            <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+              Powrót na stronę główną
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-muted mt-3 small">
+        Po opłaceniu otrzymasz e-mail z potwierdzeniem płatności i szczegółami rezerwacji.
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}
