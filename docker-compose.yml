@@ -45,8 +45,6 @@ services:
     volumes:
       - certbot_www:/var/www/certbot
       - letsencrypt:/etc/letsencrypt
-    entrypoint: sh
-    command: -c "echo certbot ready"
 
 volumes:
   db_data:
