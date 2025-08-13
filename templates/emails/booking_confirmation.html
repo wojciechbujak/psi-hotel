@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pl">
+  <body style="font-family:Arial,Helvetica,sans-serif;line-height:1.6;margin:0;padding:0;background:#f7f7f7;">
+    <div style="max-width:640px;margin:0 auto;background:#ffffff;padding:24px;">
+      <h2 style="margin-top:0;">Potwierdzenie rezerwacji #{{ booking_id }}</h2>
+      <p>Cześć {{ client_name }},</p>
+      <p>Dziękujemy za dokonanie rezerwacji w <strong>{{ site_name }}</strong>!</p>
+
+      <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;margin:16px 0;">
+        <tr>
+          <td style="padding:8px;border-bottom:1px solid #eee;">Pies</td>
+          <td style="padding:8px;border-bottom:1px solid #eee;"><strong>{{ dog_name }}</strong></td>
+        </tr>
+        <tr>
+          <td style="padding:8px;border-bottom:1px solid #eee;">Przyjazd</td>
+          <td style="padding:8px;border-bottom:1px solid #eee;">{{ check_in|date:"Y-m-d" }}</td>
+        </tr>
+        <tr>
+          <td style="padding:8px;border-bottom:1px solid #eee;">Wyjazd</td>
+          <td style="padding:8px;border-bottom:1px solid #eee;">{{ check_out|date:"Y-m-d" }}</td>
+        </tr>
+      </table>
+
+      <p>Jeśli potrzebujesz wprowadzić zmiany, odpowiedz na tę wiadomość.</p>
+      <p>Pozdrawiamy,<br>Zespół {{ site_name }}</p>
+    </div>
+  </body>
+</html>

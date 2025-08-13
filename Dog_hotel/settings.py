@@ -9,13 +9,12 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-from decouple import config
+from decouple import config, Csv
 from pathlib import Path
 import os
 import environ
 
-
-
+import users
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -48,6 +47,7 @@ INSTALLED_APPS = [
     'hotel.apps.HotelConfig',
     'hotel.templatetags.form_tags',
     'widget_tweaks',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -148,11 +148,43 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-DEFAULT_FROM_EMAIL = "noreply@psihotel.pl"
+
+
 
 CSRF_TRUSTED_ORIGINS = [o.strip() for o in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if o.strip()]
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+
+SECURITY = config("OVH_EMAIL_SECURITY", default="tls").lower()
+if SECURITY not in ("tls", "ssl"):
+    SECURITY = "tls"
+
+HOST_TLS = config("OVH_EMAIL_HOST_TLS", default="smtp.mail.ovh.net")
+PORT_TLS = config("OVH_EMAIL_PORT_TLS", default=587, cast=int)
+
+HOST_SSL = config("OVH_EMAIL_HOST_SSL", default="ssl0.ovh.net")
+PORT_SSL = config("OVH_EMAIL_PORT_SSL", default=465, cast=int)
+
+if SECURITY == "ssl":
+    EMAIL_HOST = HOST_SSL
+    EMAIL_PORT = PORT_SSL
+    EMAIL_USE_SSL = True
+    EMAIL_USE_TLS = False
+else:
+    EMAIL_HOST = HOST_TLS
+    EMAIL_PORT = PORT_TLS
+    EMAIL_USE_TLS = True
+    EMAIL_USE_SSL = False
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST_USER = config("OVH_EMAIL_USER")
+EMAIL_HOST_PASSWORD = config("OVH_EMAIL_PASSWORD")
+
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default=EMAIL_HOST_USER)
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+
+EMAIL_TIMEOUT = config("EMAIL_TIMEOUT", default=20, cast=int)
+DEFAULT_CHARSET = "utf-8"

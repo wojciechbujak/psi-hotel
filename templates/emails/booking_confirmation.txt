@@ -1,0 +1,14 @@
+bash
+Cześć {{ client_name }},
+
+Dziękujemy za dokonanie rezerwacji w {{ site_name }}!
+Szczegóły:
+- Numer rezerwacji: #{{ booking_id }}
+- Pies: {{ dog_name }}
+- Przyjazd: {{ check_in|date:"Y-m-d" }}
+- Wyjazd: {{ check_out|date:"Y-m-d" }}
+
+Jeśli coś się zmieni, odpisz na tego maila.
+
+Pozdrawiamy,
+Zespół {{ site_name }}
