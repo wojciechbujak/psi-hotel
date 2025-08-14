@@ -1,0 +1,6 @@
+Cześć {{ user.get_username }}!
+
+Aby aktywować konto w Psim Hotelu, kliknij:
+{{ activate_url }}
+
+Jeśli to nie Ty zakładałeś konto, zignoruj tę wiadomość.

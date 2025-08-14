@@ -1,22 +1,27 @@
-
-from django.utils.http import urlsafe_base64_decode
+from django.contrib import messages
 from django.contrib.auth import get_user_model, login
-from django.http import HttpResponseRedirect, HttpResponse
-from django.urls import reverse
-from .tokens import account_activation_token
+from django.shortcuts import redirect, render
+from django.utils.http import urlsafe_base64_decode
+from django.utils.encoding import force_str
+from .tokens import activation_token
 
 User = get_user_model()
 
 def activate(request, uidb64, token):
     try:
-        uid = urlsafe_base64_decode(uidb64).decode()
+        uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
     except Exception:
         user = None
 
-    if user and account_activation_token.check_token(user, token):
-        user.is_active = True
-        user.save()
-        login(request, user)
-        return HttpResponseRedirect(reverse("dashboard"))  # podmień na swój URL
-    return HttpResponse("Link nieprawidłowy lub wygasł.", status=400)
+    if user and activation_token.check_token(user, token):
+        if not user.is_active:
+            user.is_active = True
+            user.save(update_fields=["is_active"])
+            login(request, user)
+            messages.success(request, "Konto zostało aktywowane. Witamy! 🐶")
+        else:
+            messages.info(request, "To konto jest już aktywne.")
+        return redirect("home")
+    else:
+        return render(request, "users/activation_invalid.html", status=400)

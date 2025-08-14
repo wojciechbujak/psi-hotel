@@ -3,6 +3,8 @@ from django.contrib.auth import login
 import requests
 from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect, get_object_or_404
+
+from users.emails import send_activation_email
 from .models import Profile, Room, Reservation, RoomDaySlot
 from .forms import UserRegisterForm, ReservationForm, ContactForm
 from django.contrib.auth.decorators import login_required
@@ -66,6 +68,7 @@ def register(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.username = form.cleaned_data['email']
+            user.is_active = False
             user.save()
 
             Profile.objects.create(
@@ -76,8 +79,14 @@ def register(request):
                 zip_code=form.cleaned_data['zip_code']
             )
 
-            login(request, user)
-            return redirect('home')
+
+            send_activation_email(user, request)
+
+            messages.success(
+                request,
+                "Zarejestrowano! Sprawdź e-mail i kliknij link aktywacyjny, aby zalogować się."
+            )
+            return redirect('login')
     else:
         form = UserRegisterForm()
     return render(request, 'auth/register.html', {'form': form})

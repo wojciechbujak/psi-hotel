@@ -24,5 +24,5 @@ urlpatterns = [
     path('', include('hotel.urls')),
     path('login/', auth_views.LoginView.as_view(template_name='auth/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path("u/activate/<uidb64>/<token>/", activate, name="activate"),
+    path("users/", include("users.urls", namespace="users")),
 ]

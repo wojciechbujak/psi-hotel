@@ -1,0 +1,10 @@
+<!doctype html>
+<html>
+  <body>
+    <p>Cześć {{ user.get_username }}!</p>
+    <p>Aby aktywować konto w <strong>Psie Hotelu</strong>, kliknij:
+      <br><a href="{{ activate_url }}">{{ activate_url }}</a>
+    </p>
+    <p>Jeśli to nie Ty zakładałeś konto, zignoruj tę wiadomość.</p>
+  </body>
+</html>

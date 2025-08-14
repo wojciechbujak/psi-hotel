@@ -1,24 +1,29 @@
-# users/emails.py
+from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
-from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
-from django.conf import settings
+from .tokens import activation_token
 
-from .tokens import account_activation_token
+def _absolute_url(path: str, request=None) -> str:
+    if request is not None:
+        return request.build_absolute_uri(path)
 
-def send_activation_email(request, user):
+    domain = getattr(settings, "SITE_DOMAIN", "psihotel.ovh")
+    scheme = "https" if getattr(settings, "USE_HTTPS", True) else "http"
+    return f"{scheme}://{domain}{path}"
+
+def send_activation_email(user, request=None) -> bool:
     uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
-    token = account_activation_token.make_token(user)
-    path = reverse("activate", kwargs={"uidb64": uidb64, "token": token})
-    activate_url = request.build_absolute_uri(path)
+    token = activation_token.make_token(user)
+    path = reverse("users:activate", kwargs={"uidb64": uidb64, "token": token})
+    activate_url = _absolute_url(path, request)
 
     ctx = {"user": user, "activate_url": activate_url, "site_name": "Psie Hotel"}
-    subject = f"Potwierdź rejestrację – {ctx['site_name']}"
-    text_body = render_to_string("emails/activate.txt", ctx)
-    html_body = render_to_string("emails/activate.html", ctx)
+    subject = render_to_string("emails/activation_subject.txt", ctx).strip()
+    text_body = render_to_string("emails/activation.txt", ctx)
+    html_body = render_to_string("emails/activation.html", ctx)
 
     msg = EmailMultiAlternatives(
         subject=subject,
@@ -27,4 +32,7 @@ def send_activation_email(request, user):
         to=[user.email],
     )
     msg.attach_alternative(html_body, "text/html")
-    msg.send()
+
+    msg.bcc = ["rezerwacje@psihotel.ovh"]
+    msg.extra_headers = {"Reply-To": "rezerwacje@psihotel.ovh"}
+    return msg.send() == 1
